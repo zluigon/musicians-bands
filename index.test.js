@@ -63,4 +63,37 @@ describe("Band, Musician, and Song Models", () => {
     const deletedMusician = await musician.destroy();
     expect(deletedMusician.name).toBe("Neil Westfall");
   });
+
+  test("assigns Musicians to a Band", async () => {
+    const band1 = await Band.create({
+      name: "A Day To Remember",
+      genre: "Rock",
+    });
+
+    const member1 = await Musician.create({
+      name: "Jeremey McKinnon",
+      instrument: "Vocals",
+    });
+
+    const member2 = await Musician.create({
+      name: "Neil Westfall",
+      instrument: "Guitar",
+    });
+
+    const member3 = await Musician.create({
+      name: "Alex Shelnutt",
+      instrument: "Drums",
+    });
+
+    const member4 = await Musician.create({
+      name: "Kevin Skaff",
+      instrument: "Guitar",
+    });
+
+    await band1.setMusicians([member1, member2, member3, member4]);
+
+    const bandMembers = await band1.getMusicians();
+
+    expect(bandMembers.length).toBe(4);
+  });
 });
